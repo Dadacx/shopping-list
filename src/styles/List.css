@@ -1,0 +1,48 @@
+.list {
+    background-color: #272727;
+    width: 100%;
+    height: 100vh;
+}
+
+.list-header {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.list-header .back-icon {
+    width: 16px;
+}
+
+.list-header a {
+    margin: 0 10px;
+    height: 16px;
+}
+
+.list-title {
+    background: unset;
+    outline: none;
+    border: none;
+    color: var(--color);
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 0;
+}
+
+.line {
+    height: 1px;
+    background: #4d4d4d;
+}
+
+.list-items {
+    font-size: 0.9rem;
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+.list-item {
+    display: flex;
+    gap: 5px;
+    margin: 5px 0;
+}

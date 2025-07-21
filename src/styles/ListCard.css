@@ -1,0 +1,38 @@
+.list-card {
+    box-sizing: border-box;
+    width: 45%;
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    text-decoration: none;
+    color: unset;
+    aspect-ratio: 1 / 1.5;
+}
+
+.card-items-list {
+    padding-inline-start: 20px;
+    overflow: hidden;
+    height: 80%;
+}
+
+.card-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.card-timestamp {
+    color: #8c8c8c;
+    position: absolute;
+    bottom: 5px;
+    right: 7px;
+}
+
+.card-item .item-name {
+    margin-right: 6px;
+}
+.card-item.checked {
+    text-decoration: line-through;
+    color: gray;
+}

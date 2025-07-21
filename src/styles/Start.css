@@ -1,0 +1,25 @@
+.list-container {
+    width: 100%;
+    display: flex;
+    gap: 4%;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px;
+}
+
+.add-list-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    width: 65px;
+    height: 65px;
+    background: #3a3a3a;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-list-button img {
+    height: 65%;
+}

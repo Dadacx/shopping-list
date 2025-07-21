@@ -1,0 +1,149 @@
+{
+    "next_id": null,
+    "lists": [
+        {
+            "id": 1,
+            "name": "Lista zakupów",
+            "items": [
+                {
+                    "name": "Chleb",
+                    "amount": 2,
+                    "checked": false
+                },
+                {
+                    "name": "Mleko",
+                    "amount": 6,
+                    "checked": true
+                },
+                {
+                    "name": "Płatki kukurydziane Lubella",
+                    "amount": 2,
+                    "checked": false
+                },
+                {
+                    "name": "Płatki muszelki",
+                    "amount": 2,
+                    "checked": true
+                },
+                {
+                    "name": "Lody",
+                    "amount": 2,
+                    "checked": false
+                },
+                {
+                    "name": "Piersi z kurczaka",
+                    "amount": 2,
+                    "checked": false
+                }
+            ],
+            "timestamp": 1690009004310
+        },
+        {
+            "id": 2,
+            "name": "Lista zakupów 2",
+            "items": [
+                {
+                    "name": "Masło",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Jajka",
+                    "amount": 12,
+                    "checked": true
+                },
+                {
+                    "name": "Ser",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Szynka",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Kawa",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Herbata",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Cukier",
+                    "amount": 1,
+                    "checked": true
+                },
+                {
+                    "name": "Sól",
+                    "amount": 1,
+                    "checked": true
+                },
+                {
+                    "name": "Pieprz",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Olej",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Ocet",
+                    "amount": 1,
+                    "checked": true
+                },
+                {
+                    "name": "Makaron",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Ryż",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Ziemniaki",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Marchewka",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Cebula",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Czosnek",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Papryka",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Pomidor",
+                    "amount": 1,
+                    "checked": false
+                },
+                {
+                    "name": "Ogórek",
+                    "amount": 1,
+                    "checked": false
+                }
+            ],
+            "timestamp": 1749000091020
+        }
+    ]
+}
