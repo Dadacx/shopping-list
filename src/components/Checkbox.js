@@ -1,7 +1,7 @@
 import '../styles/Checkbox.css';
 import { useId } from 'react';
 
-const Checkbox = ({ checked = false, onChange, size = "20px" }) => {
+const Checkbox = ({ checked = false, onChange, size = "20px", disabled = false }) => {
     const id = useId();
 
     return (
@@ -11,6 +11,7 @@ const Checkbox = ({ checked = false, onChange, size = "20px" }) => {
                 id={id}
                 defaultChecked={checked}
                 onChange={onChange}
+                disabled={disabled}
             />
             <label htmlFor={id} style={{ '--size': size }}>
                 <svg viewBox="0 0 50 50">

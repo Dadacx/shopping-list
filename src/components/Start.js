@@ -2,6 +2,7 @@ import '../styles/Start.css';
 import NavBar from './NavBar';
 import ListCard from './ListCard';
 import addListIcon from '../images/add_list.svg';
+import { ReactComponent as AddListIcon } from '../images/add_list.svg';
 
 const Start = ({ data }) => {
     return (
@@ -13,7 +14,8 @@ const Start = ({ data }) => {
                 })}
             </div>
             <div className='add-list-button'>
-                <img src={addListIcon} alt="Add List" />
+                {/* <img src={addListIcon} alt="Add List" /> */}
+                <AddListIcon style={{ color: 'var(--color)' }} />
             </div>
         </>
     );

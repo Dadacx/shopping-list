@@ -1,10 +1,10 @@
-.list {
+.edit-list {
     background-color: var(--background-list-color);
     width: 100%;
     height: 100vh;
 }
 
-.list-header {
+.edit-list .list-header {
     width: 100%;
     height: 40px;
     display: flex;
@@ -14,16 +14,16 @@
     box-sizing: border-box;
 }
 
-.list-header .back-icon {
+.edit-list .list-header .back-icon {
     width: 16px;
-    height: auto;
+        height: auto;
 }
 
-.list-header a {
+.edit-list .list-header a {
     height: 16px;
 }
 
-.list-title {
+.edit-list .list-title {
     width: -webkit-fill-available;
     background: unset;
     outline: none;
@@ -33,25 +33,34 @@
     font-weight: bold;
     padding: 0;
 }
-
-.line {
+.save-button {
+    height: 25px;
+}
+.save-button svg {
+    height: 100%;
+    width: auto;
+}
+.edit-list .line {
     height: 1px;
     background: #4d4d4d;
 }
 
-.list-items {
+.edit-list .list-items {
     font-size: 0.9rem;
     list-style-type: none;
     padding-left: 15px;
 }
 
-.list-item {
+.edit-input-item {
+    background: unset;
+    outline: none;
+    border: none;
+    color: var(--color);
+    padding: 0;
+}
+
+.edit-list .list-item {
     display: flex;
     gap: 5px;
     margin: 5px 0;
-}
-
-.list-item.checked {
-    text-decoration: line-through;
-    color: gray;
 }

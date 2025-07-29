@@ -23,12 +23,15 @@
 
   .checkbox-wrapper-23 input + label {
     display: block;
-    border: 2px solid #fff;
+    border: 2px solid var(--color);
     width: var(--size);
     height: var(--size);
     border-radius: 6px;
     cursor: pointer;
     transition: all .2s ease;
+  }
+  .checkbox-wrapper-23 input:disabled + label {
+        border: 2px solid gray;
   }
     
   /* .checkbox-wrapper-23 input + label:active {
@@ -43,11 +46,15 @@
 
   .checkbox-wrapper-23 input + label svg path {      
     fill: none;     
-    stroke: #fff;
+    stroke: var(--color);
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-dasharray: 100;
     stroke-dashoffset: 101;
     transition: all 250ms cubic-bezier(1,0,.37,.91);
+  }
+
+  .checkbox-wrapper-23 input:disabled + label svg path {
+        stroke: gray;
   }

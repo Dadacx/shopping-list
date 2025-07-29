@@ -1,7 +1,7 @@
 .list-card {
     box-sizing: border-box;
     width: 45%;
-    background-color: #272727;
+    background-color: var(--background-list-color);
     border-radius: 10px;
     padding: 5px;
     position: relative;
