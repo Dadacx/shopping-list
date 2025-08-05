@@ -19,12 +19,12 @@
     height: auto;
 }
 
-.list-header a {
+.list-header .back {
     height: 16px;
 }
 
 .list-title {
-    width: -webkit-fill-available;
+    width: inherit;
     background: unset;
     outline: none;
     border: none;
@@ -32,6 +32,21 @@
     font-size: 1.3rem;
     font-weight: bold;
     padding: 0;
+}
+
+.list-buttons {
+    display: flex;
+    width: fit-content;
+    gap: 10px;
+}
+
+.edit-button {
+    height: 25px;
+}
+
+.edit-button svg {
+    height: 100%;
+    width: auto;
 }
 
 .line {
@@ -43,12 +58,14 @@
     font-size: 0.9rem;
     list-style-type: none;
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .list-item {
     display: flex;
     gap: 5px;
     margin: 5px 0;
+    align-items: center;
 }
 
 .list-item.checked {

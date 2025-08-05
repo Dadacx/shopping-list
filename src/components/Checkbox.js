@@ -1,17 +1,19 @@
 import '../styles/Checkbox.css';
 import { useId } from 'react';
 
-const Checkbox = ({ checked = false, onChange, size = "20px", disabled = false }) => {
+const Checkbox = ({ checked, defaultChecked = false, onChange, className, size = "20px", disabled = false, readOnly = false }) => {
     const id = useId();
 
     return (
-        <div className="checkbox-wrapper-23">
+        <div className={`checkbox-wrapper-23 ${className}`}>
             <input
                 type="checkbox"
                 id={id}
-                defaultChecked={checked}
+                checked={checked}
+                defaultChecked={defaultChecked}
                 onChange={onChange}
                 disabled={disabled}
+                readOnly={readOnly}
             />
             <label htmlFor={id} style={{ '--size': size }}>
                 <svg viewBox="0 0 50 50">

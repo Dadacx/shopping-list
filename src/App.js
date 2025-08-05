@@ -1,6 +1,7 @@
 import './styles/main.css'
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { PopupManager } from './components/Popup/Popup';
 import Start from './components/Start';
 import List from './components/List';
 import EditList from './components/EditList';
@@ -14,7 +15,6 @@ function App() {
   };
 
   const [data, setData] = useState(getData());
-  const [theme, setTheme] = useState(data?.theme || "light")
 
   const saveData = (data) => {
     console.log("Saving data to localStorage:", data);
@@ -22,14 +22,6 @@ function App() {
     setData(data);
     // console.log("Data saved:", data);
   };
-
-  const changeTheme = (theme) => {
-    const tmpData = { ...data };
-    tmpData.theme = theme;
-    saveData(tmpData);
-  };
-
-  document.querySelector("body").setAttribute("data-theme", theme)
 
   if (!data) {
     const defaultData = {
@@ -44,13 +36,11 @@ function App() {
   console.log(data);
   return (
     <div className="container">
-      <div style={{ position: 'fixed', bottom: '10px' }}>
-        <ThemeSwitch theme={theme} setTheme={setTheme} changeTheme={changeTheme} />
-      </div>
+      <PopupManager />
       <BrowserRouter basename="/">
         <Routes>
           {/* <Route path="/" element={<Outlet />}> */}
-          <Route index element={<Start data={data} />} />
+          <Route index element={<Start data={data} saveData={saveData} />} />
           <Route path="/:id" element={<List data={data} saveData={saveData} />} />
           <Route path="/edit/:id" element={<EditList data={data} saveData={saveData} />} />
           {/* </Route> */}

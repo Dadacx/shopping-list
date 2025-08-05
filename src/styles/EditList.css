@@ -16,14 +16,14 @@
 
 .edit-list .list-header .back-icon {
     width: 16px;
-        height: auto;
+    height: auto;
 }
 
-.edit-list .list-header a {
+.edit-list .list-header .back {
     height: 16px;
 }
 
-.edit-list .list-title {
+/* .edit-list .list-title {
     width: -webkit-fill-available;
     background: unset;
     outline: none;
@@ -32,14 +32,16 @@
     font-size: 1.3rem;
     font-weight: bold;
     padding: 0;
-}
+} */
 .save-button {
     height: 25px;
 }
+
 .save-button svg {
     height: 100%;
     width: auto;
 }
+
 .edit-list .line {
     height: 1px;
     background: #4d4d4d;
@@ -49,6 +51,7 @@
     font-size: 0.9rem;
     list-style-type: none;
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .edit-input-item {
@@ -63,4 +66,10 @@
     display: flex;
     gap: 5px;
     margin: 5px 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.edit-list .list-item .item-amount {
+    width: inherit;
 }

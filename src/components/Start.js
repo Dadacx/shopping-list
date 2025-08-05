@@ -1,22 +1,108 @@
 import '../styles/Start.css';
+import { useState } from 'react';
 import NavBar from './NavBar';
 import ListCard from './ListCard';
-import addListIcon from '../images/add_list.svg';
+import HamburgerMenu from './HamburgerMenu';
+import { showPopup } from './Popup/Popup';
 import { ReactComponent as AddListIcon } from '../images/add_list.svg';
+import { ReactComponent as ExportIcon } from '../images/export.svg';
+import { ReactComponent as DeleteIcon } from '../images/delete.svg';
+import { ReactComponent as DupliceIcon } from '../images/duplice.svg';
+import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
+import { Link } from 'react-router-dom';
 
-const Start = ({ data }) => {
+const Start = ({ data, saveData }) => {
+    const [theme, setTheme] = useState(data?.theme || "light")
+    const [selectedLists, setSelectedLists] = useState([]);
+    const [isHamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
+
+    const changeTheme = (theme) => {
+        const tmpData = { ...data };
+        tmpData.theme = theme;
+        saveData(tmpData);
+    };
+
+    document.querySelector("body").setAttribute("data-theme", theme)
+
+    const toggleHamburgerMenu = () => {
+        setHamburgerMenuOpen(!isHamburgerMenuOpen);
+    };
+
+    const handleContextMenu = (e, id) => {
+        e.preventDefault();
+        setSelectedLists(prev => {
+            if (prev.includes(id)) {
+                return prev.filter(item => item !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
+    };
+
+    const exportSelectedLists = () => {
+        const exportData = {
+            id: 'shoppingList',
+            lists_count: selectedLists.length,
+            lists: data.lists.filter(list => selectedLists.includes(list.id)),
+        }
+        const jsonString = JSON.stringify(exportData);
+
+        var copyText = document.createElement("textarea");
+        copyText.value = jsonString;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+        navigator.clipboard.writeText(copyText.value);
+
+        showPopup({ message: "Zaznaczone listy zostały skopiowane do schowka", type: "success", duration: 5000, border: true, icon: true });
+        setSelectedLists([]);
+    };
+
+    const deleteSelectedLists = () => {
+        if (!window.confirm("Czy na pewno chcesz usunąć zaznaczone listy?")) return;
+        const updatedLists = data.lists.filter(list => !selectedLists.includes(list.id));
+        const updatedData = { ...data, lists: updatedLists };
+        saveData(updatedData);
+        showPopup({ message: "Zaznaczone listy zostały usunięte", type: "success", duration: 5000, border: true, icon: true });
+        setSelectedLists([]);
+    };
+
+    console.log(selectedLists)
     return (
         <>
-            <NavBar />
+            <NavBar toggleMenu={toggleHamburgerMenu} />
+            <div className='hamburger-menu-container' style={{ display: isHamburgerMenuOpen ? 'block' : 'none' }}>
+                <HamburgerMenu isOpen={isHamburgerMenuOpen} toggleMenu={toggleHamburgerMenu} theme={theme} setTheme={setTheme}
+                    changeTheme={changeTheme} data={data} saveData={saveData} />
+            </div>
             <div className='list-container'>
                 {data.lists.map(list => {
-                    return <ListCard key={list.id} list={list} />;
+                    return <ListCard key={list.id} list={list} handleContextMenu={handleContextMenu} selectedLists={selectedLists} setSelectedLists={setSelectedLists} />;
                 })}
             </div>
-            <div className='add-list-button'>
-                {/* <img src={addListIcon} alt="Add List" /> */}
+            {selectedLists.length === 0 ? <Link onClick={() => {
+                const newList = { id: data.next_id, name: 'Lista bez tytułu', items: [{ name: '', amount: 0, checked: false }], timestamp: Date.now() };
+                const updatedData = { ...data, lists: [...data.lists, newList], next_id: data.next_id + 1 };
+                saveData(updatedData);
+            }} to={`/edit/${data.next_id}`} className='add-list-button'>
                 <AddListIcon style={{ color: 'var(--color)' }} />
-            </div>
+            </Link> : <div className='selected-lists-menu'>
+                <div className='btn export-btn' onClick={exportSelectedLists}>
+                    <ExportIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <div className='text'>Eksportuj</div>
+                </div>
+                <div className='btn delete-btn' onClick={deleteSelectedLists}>
+                    <DeleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <div className='text'>Usuń</div>
+                </div>
+                <div className='btn duplice-btn'>
+                    <DupliceIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <div className='text'>Duplikuj</div>
+                </div>
+                <div className='btn adjust-btn'>
+                    <PalleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <div className='text'>Dostosuj</div>
+                </div>
+            </div>}
         </>
     );
 };
