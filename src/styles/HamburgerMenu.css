@@ -4,17 +4,25 @@
     height: 100vh;
     position: absolute;
     z-index: 100;
+    transition: 1s;
+}
+.hamburger-menu-container.open {
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
 .hamburger-menu {
-    display: none;
+    /* display: none; */
+    position: absolute;
+    left: -80%;
     width: 80%;
     height: 100vh;
     background-color: var(--background-list-color);
+    transition: 1s;
 }
 
 .hamburger-menu.open {
-    display: block;
+    /* display: block; */
+    left: 0;
 }
 
 .hamburger-menu-header {
@@ -43,7 +51,7 @@
     position: absolute;
     top: 15%;
     background-color: var(--background-list-color);
-    width: 65%;
+    width: 80%;
     padding: 10px;
     display: flex;
     flex-direction: column;

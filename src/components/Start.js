@@ -11,18 +11,9 @@ import { ReactComponent as DupliceIcon } from '../images/duplice.svg';
 import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
 import { Link } from 'react-router-dom';
 
-const Start = ({ data, saveData }) => {
-    const [theme, setTheme] = useState(data?.theme || "light")
+const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
     const [selectedLists, setSelectedLists] = useState([]);
     const [isHamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
-
-    const changeTheme = (theme) => {
-        const tmpData = { ...data };
-        tmpData.theme = theme;
-        saveData(tmpData);
-    };
-
-    document.querySelector("body").setAttribute("data-theme", theme)
 
     const toggleHamburgerMenu = () => {
         setHamburgerMenuOpen(!isHamburgerMenuOpen);
@@ -70,7 +61,7 @@ const Start = ({ data, saveData }) => {
     return (
         <>
             <NavBar toggleMenu={toggleHamburgerMenu} />
-            <div className='hamburger-menu-container' style={{ display: isHamburgerMenuOpen ? 'block' : 'none' }}>
+            <div className={`hamburger-menu-container ${isHamburgerMenuOpen ? 'open' : ''}`} style={{ visibility: isHamburgerMenuOpen ? 'visible' : 'hidden' }}>
                 <HamburgerMenu isOpen={isHamburgerMenuOpen} toggleMenu={toggleHamburgerMenu} theme={theme} setTheme={setTheme}
                     changeTheme={changeTheme} data={data} saveData={saveData} />
             </div>
@@ -98,10 +89,10 @@ const Start = ({ data, saveData }) => {
                     <DupliceIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
                     <div className='text'>Duplikuj</div>
                 </div>
-                <div className='btn adjust-btn'>
+                {/* <div className='btn adjust-btn'>
                     <PalleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
                     <div className='text'>Dostosuj</div>
-                </div>
+                </div> */}
             </div>}
         </>
     );

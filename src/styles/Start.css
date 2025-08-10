@@ -41,6 +41,7 @@
     background-color: var(--background-color);
     padding: 0 10px;
     box-sizing: border-box;
+    z-index: 100;
 }
 
 .selected-lists-menu .btn {

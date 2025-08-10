@@ -15,6 +15,8 @@ function App() {
   };
 
   const [data, setData] = useState(getData());
+  const [theme, setTheme] = useState(data?.theme || "light")
+
 
   const saveData = (data) => {
     console.log("Saving data to localStorage:", data);
@@ -22,6 +24,13 @@ function App() {
     setData(data);
     // console.log("Data saved:", data);
   };
+  const changeTheme = (theme) => {
+    const tmpData = { ...data };
+    tmpData.theme = theme;
+    saveData(tmpData);
+  };
+
+  document.querySelector("body").setAttribute("data-theme", theme)
 
   if (!data) {
     const defaultData = {
@@ -40,7 +49,7 @@ function App() {
       <BrowserRouter basename="/">
         <Routes>
           {/* <Route path="/" element={<Outlet />}> */}
-          <Route index element={<Start data={data} saveData={saveData} />} />
+          <Route index element={<Start data={data} saveData={saveData} theme={theme} setTheme={setTheme} changeTheme={changeTheme} />} />
           <Route path="/:id" element={<List data={data} saveData={saveData} />} />
           <Route path="/edit/:id" element={<EditList data={data} saveData={saveData} />} />
           {/* </Route> */}
