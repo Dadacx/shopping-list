@@ -5,8 +5,6 @@ import { PopupManager } from './components/Popup/Popup';
 import Start from './components/Start';
 import List from './components/List';
 import EditList from './components/EditList';
-import ThemeSwitch from './components/ThemeSwitch';
-import testData from './test.json'
 
 function App() {
   const getData = () => {

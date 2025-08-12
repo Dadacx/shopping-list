@@ -1,6 +1,6 @@
 import '../styles/EditList.css';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Checkbox from './Checkbox';
 import AutoWidthInput from './AutoWidthInput';
 import { showPopup } from './Popup/Popup';
@@ -9,8 +9,21 @@ import { ReactComponent as SaveIcon } from '../images/save.svg';
 
 const EditList = ({ data, saveData }) => {
   const { id } = useParams();
-  const [list, setList] = useState(data.lists.find(list => list.id === parseInt(id)));
+  const [list, setList] = useState(JSON.parse(JSON.stringify(data.lists.find(l => l.id === parseInt(id)))));
   const listRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   const saveList = () => {
     if (!list.name.trim()) {
@@ -53,24 +66,24 @@ const EditList = ({ data, saveData }) => {
   const handleBackspace = (e) => {
     const inputs = listRef.current.querySelectorAll('input.edit-input-item');
     const currentIndex = Array.from(inputs).indexOf(document.activeElement);
-    
+
     // Sprawdzamy czy aktualny input jest pusty
     const currentInputEmpty = document.activeElement.value === '';
-    
+
     // Jeśli backspace na pierwszym inpucie i oba inputy są puste
     if (currentInputEmpty && currentIndex % 2 === 0) {
       const itemIndex = Math.floor(currentIndex / 2);
       const item = list.items[itemIndex];
-      
+
       // Sprawdzamy czy oba pola (nazwa i ilość) są puste
       if (item.name === '' && item.amount === 0 && list.items.length > 1) {
         e.preventDefault();
-        
+
         const updatedItems = [...list.items];
         updatedItems.splice(itemIndex, 1);
-        
+
         setList(prev => ({ ...prev, items: updatedItems }));
-        
+
         // Przenosimy focus na poprzedni input
         setTimeout(() => {
           const newInputs = listRef.current.querySelectorAll('input.edit-input-item');
@@ -98,14 +111,30 @@ const EditList = ({ data, saveData }) => {
       document.removeEventListener("keydown", enter);
       document.removeEventListener("keydown", backspace);
     };
-  }, [list.items]); // Dodajemy zależność, aby useEffect reagował na zmiany listy
+  }, [list.items]);
+
+  const hasChanges = (list, originalList) => {
+    const cleanOriginal = {
+      ...originalList,
+      items: originalList.items.map(item => ({ ...item }))
+    };
+    return JSON.stringify(list) !== JSON.stringify(cleanOriginal);
+  };
+
+  function close() {
+    if (hasChanges(list, data.lists.find(list => list.id === parseInt(id)))) {
+      if (window.confirm("Masz niezapisane zmiany. Czy na pewno chcesz wyjść?")) navigate(`/${parseInt(id)}`)
+    } else {
+      navigate(`/${parseInt(id)}`)
+    }
+  }
 
   return (
     <div className="edit-list">
       <div className='list-header'>
-        <Link to={`/${id}`} className='back'>
+        <div className='back' onClick={close}>
           <BackIcon className='back-icon' style={{ color: 'var(--color)' }} />
-        </Link>
+        </div>
         <input className='list-title' type="text" placeholder='Podaj tytuł listy' defaultValue={list.name} onChange={(e) => {
           const updatedList = { ...list, name: e.target.value };
           setList(updatedList);

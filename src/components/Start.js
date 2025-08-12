@@ -3,12 +3,13 @@ import { useState } from 'react';
 import NavBar from './NavBar';
 import ListCard from './ListCard';
 import HamburgerMenu from './HamburgerMenu';
+import CopyToClipboard from './CopyToClipboard';
 import { showPopup } from './Popup/Popup';
 import { ReactComponent as AddListIcon } from '../images/add_list.svg';
 import { ReactComponent as ExportIcon } from '../images/export.svg';
 import { ReactComponent as DeleteIcon } from '../images/delete.svg';
 import { ReactComponent as DupliceIcon } from '../images/duplice.svg';
-import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
+// import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
 import { Link } from 'react-router-dom';
 
 const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
@@ -35,17 +36,19 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
             id: 'shoppingList',
             lists_count: selectedLists.length,
             lists: data.lists.filter(list => selectedLists.includes(list.id)),
-        }
+        };
         const jsonString = JSON.stringify(exportData);
 
-        var copyText = document.createElement("textarea");
-        copyText.value = jsonString;
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
-        navigator.clipboard.writeText(copyText.value);
-
-        showPopup({ message: "Zaznaczone listy zostały skopiowane do schowka", type: "success", duration: 5000, border: true, icon: true });
-        setSelectedLists([]);
+        CopyToClipboard(
+            jsonString,
+            () => {
+                showPopup({ message: "Zaznaczone listy zostały skopiowane do schowka", type: "success", duration: 5000, border: true, icon: true });
+                setSelectedLists([]);
+            },
+            () => {
+                showPopup({ message: "Nie udało się skopiować list", type: "error", duration: 5000, border: true, icon: true });
+            }
+        );
     };
 
     const deleteSelectedLists = () => {
@@ -57,7 +60,17 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
         setSelectedLists([]);
     };
 
-    console.log(selectedLists)
+    const dupliceSelectedLists = () => {
+        const updatedLists = data.lists.filter(list => selectedLists.includes(list.id)).map(list => ({
+            ...list,
+            id: data.next_id++,
+        }));
+        const updatedData = { ...data, lists: [...data.lists, ...updatedLists] };
+        saveData(updatedData);
+        showPopup({ message: "Zaznaczone listy zostały zduplikowane", type: "success", duration: 5000, border: true, icon: true });
+        setSelectedLists([]);
+    };
+
     return (
         <>
             <NavBar toggleMenu={toggleHamburgerMenu} />
@@ -85,7 +98,7 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
                     <DeleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
                     <div className='text'>Usuń</div>
                 </div>
-                <div className='btn duplice-btn'>
+                <div className='btn duplice-btn' onClick={dupliceSelectedLists}>
                     <DupliceIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
                     <div className='text'>Duplikuj</div>
                 </div>

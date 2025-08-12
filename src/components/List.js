@@ -1,6 +1,7 @@
 import '../styles/List.css';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState } from 'react';
+import CopyToClipboard from './CopyToClipboard';
 import { showPopup } from './Popup/Popup';
 import Checkbox from './Checkbox';
 import { ReactComponent as BackIcon } from '../images/back.svg';
@@ -22,17 +23,19 @@ const List = ({ data, saveData }) => {
       id: 'shoppingList',
       lists_count: 1,
       lists: data.lists.filter(list => list.id === parseInt(id)),
-    }
+    };
     const jsonString = JSON.stringify(exportData);
 
-    var copyText = document.createElement("textarea");
-    copyText.value = jsonString;
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-    navigator.clipboard.writeText(copyText.value);
-
-    showPopup({ message: "Zawartość listy została skopiowana do schowka", type: "success", duration: 5000, border: true, icon: true });
-    setDropdownOpen(false);
+    CopyToClipboard(
+      jsonString,
+      () => {
+        showPopup({ message: "Zawartość listy została skopiowana do schowka", type: "success", duration: 5000, border: true, icon: true });
+        setDropdownOpen(false);
+      },
+      () => {
+        showPopup({ message: "Nie udało się skopiować listy", type: "error", duration: 5000, border: true, icon: true });
+      }
+    );
   };
 
   const deleteList = () => {

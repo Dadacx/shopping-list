@@ -22,6 +22,7 @@
     padding-inline-start: 20px;
     overflow: hidden;
     height: 80%;
+    user-select: none;
 }
 
 .card-title {
