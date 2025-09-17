@@ -2,10 +2,11 @@
     display: block;
     width: 100%;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     transition: 1s;
 }
+
 .hamburger-menu-container.open {
     background-color: rgb(0, 0, 0, 0.5);
 }
@@ -36,7 +37,10 @@
 
 .hamburger-menu-content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    height: calc(100% - 65px);
 }
 
 .hamburger-menu .btn {
@@ -48,8 +52,9 @@
 }
 
 .import-panel {
-    position: absolute;
-    top: 15%;
+    /* position: absolute; */
+    /* top: 15%; */
+    margin-top: 15px;
     background-color: var(--background-list-color);
     width: 80%;
     padding: 10px;
@@ -59,6 +64,7 @@
     border: 2px solid;
     border-radius: 10px;
 }
+
 .import-textarea {
     width: 100%;
     height: 100px;
@@ -66,10 +72,22 @@
     color: var(--color);
     outline: none;
 }
+
 .import-panel button {
     margin-top: 10px;
     background-color: var(--add-btn-color);
     color: var(--color);
     padding: 10px;
     border-radius: 10px;
+}
+
+.app-version {
+    position: absolute;
+    padding: 5px;
+    bottom: 0;
+    box-sizing: border-box;
+    /* bottom: 5px; */
+    /* left: 5px; */
+    background-color: var(--background-list-color);
+    width: 100%;
 }

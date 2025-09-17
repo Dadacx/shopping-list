@@ -7,16 +7,50 @@ import Checkbox from './Checkbox';
 import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as EditIcon } from '../images/edit.svg';
 import { ReactComponent as MoreIcon } from '../images/more.svg';
+import { ReactComponent as CloseIcon } from '../images/close.svg';
 
 const List = ({ data, saveData }) => {
   const { id } = useParams();
   const list = data.lists.find(list => list.id === parseInt(id));
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isSortMenuOpen, setSortMenuOpen] = useState(false);
 
   if (!list) {
     return <Navigate to="/" replace />;
   }
+
+  const sortList = (type) => {
+    var updatedList;
+    if (type === 'a-z') {
+      const sortedItems = [...list.items].sort((a, b) => a.name.localeCompare(b.name));
+      updatedList = { ...list, items: sortedItems };
+    } else if (type === 'z-a') {
+      const sortedItems = [...list.items].sort((a, b) => b.name.localeCompare(a.name));
+      updatedList = { ...list, items: sortedItems };
+    } else if (type === 'a-z-checked') {
+      const sortedItems = [...list.items].sort((a, b) => {
+        if (a.checked === b.checked) {
+          return a.name.localeCompare(b.name);
+        }
+        return a.checked ? 1 : -1;
+      });
+      updatedList = { ...list, items: sortedItems };
+    } else if (type === 'z-a-checked') {
+      const sortedItems = [...list.items].sort((a, b) => {
+        if (a.checked === b.checked) {
+          return b.name.localeCompare(a.name);
+        }
+        return a.checked ? 1 : -1;
+      });
+      updatedList = { ...list, items: sortedItems };
+    } else if (type === 'oldest') {
+      const sortedItems = [...list.items].sort((a, b) => a.id - b.id);
+      updatedList = { ...list, items: sortedItems };
+    }
+
+    saveData({ ...data, lists: data.lists.map(l => l.id === list.id ? updatedList : l) });
+  };
 
   const exportList = () => {
     const exportData = {
@@ -61,6 +95,7 @@ const List = ({ data, saveData }) => {
             <MoreIcon style={{ color: 'var(--color)' }} className='list-dropbtn' onClick={() => setDropdownOpen(!isDropdownOpen)} />
             <div className="list-dropdown-content">
               <Link to={`/edit/${id}`} className='dropdown-item'>Edytuj</Link>
+              <div className='dropdown-item' onClick={() => {setSortMenuOpen(true); setDropdownOpen(false);}}>Sortuj</div>
               <div className='dropdown-item' onClick={exportList}>Eksportuj</div>
               <div className='dropdown-item' onClick={deleteList}>Usuń</div>
               {/* <div className='dropdown-item'>Dostosuj</div> */}
@@ -72,7 +107,7 @@ const List = ({ data, saveData }) => {
       <ul className='list-items'>
         {list.items.map((item, index) => (item.name !== '' || item.amount > 0) && (
           <li key={index} className={`list-item ${item.checked ? 'checked' : ''}`}>
-            <Checkbox defaultChecked={item.checked} onChange={() => {
+            <Checkbox checked={item.checked} onChange={() => {
               const updatedItems = [...list.items];
               updatedItems[index].checked = !updatedItems[index].checked;
               const updatedList = { ...list, items: updatedItems };
@@ -83,6 +118,21 @@ const List = ({ data, saveData }) => {
           </li>
         ))}
       </ul>
+      <div className={`sort-menu ${isSortMenuOpen ? 'open' : ''}`}>
+        <div className='sort-header'>
+          <h1>Sortuj</h1>
+          <CloseIcon style={{ color: 'var(--color)' }} className='close-sort-menu' onClick={() => setSortMenuOpen(false)} />
+        </div>
+        <div className='sort-option' onClick={() => sortList('a-z')}>Od A-Z</div>
+        <div className='sort-line'></div>
+        <div className='sort-option' onClick={() => sortList('z-a')}>Od Z-A</div>
+        <div className='sort-line'></div>
+        <div className='sort-option' onClick={() => sortList('a-z-checked')}>Od A-Z (Zaznaczone)</div>
+        <div className='sort-line'></div>
+        <div className='sort-option' onClick={() => sortList('z-a-checked')}>Od Z-A (Zaznaczone)</div>
+        <div className='sort-line'></div>
+        <div className='sort-option' onClick={() => sortList('oldest')}>Od najstarszych</div>
+      </div>
     </div>
   );
 };

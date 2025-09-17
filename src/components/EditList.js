@@ -46,7 +46,7 @@ const EditList = ({ data, saveData }) => {
     if (currentIndex < inputs.length - 1) {
       inputs[currentIndex + 1].focus();
     } else if (currentIndex === inputs.length - 1) {
-      const newItem = { name: '', amount: 0, checked: false };
+      const newItem = { id: list.items[list.items.length - 1].id + 1, name: '', amount: 0, checked: false };
       setList(prevList => {
         const updatedList = {
           ...prevList,
@@ -82,10 +82,12 @@ const EditList = ({ data, saveData }) => {
         const updatedItems = [...list.items];
         updatedItems.splice(itemIndex, 1);
 
-        setList(prev => ({ ...prev, items: updatedItems }));
+        // setList(prev => ({ ...prev, items: updatedItems }));
 
         // Przenosimy focus na poprzedni input
         setTimeout(() => {
+          setList(prev => ({ ...prev, items: updatedItems }));
+
           const newInputs = listRef.current.querySelectorAll('input.edit-input-item');
           const newIndex = Math.min(currentIndex - 1, newInputs.length - 1);
           if (newIndex >= 0) {
@@ -162,6 +164,7 @@ const EditList = ({ data, saveData }) => {
             <input
               className='item-amount edit-input-item'
               placeholder='Podaj ilość'
+              enterKeyHint="done"
               value={item.amount !== 0 ? `x${item.amount}` : ''}
               onChange={(e) => {
                 const updatedItems = [...list.items];

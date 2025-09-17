@@ -6,31 +6,37 @@
             "name": "Lista zakupów",
             "items": [
                 {
+                    "id": 1,
                     "name": "Chleb",
                     "amount": 2,
                     "checked": false
                 },
                 {
+                    "id": 2,
                     "name": "Mleko",
                     "amount": 6,
                     "checked": true
                 },
                 {
+                    "id": 3,
                     "name": "Płatki kukurydziane Lubella",
                     "amount": 2,
                     "checked": false
                 },
                 {
+                    "id": 4,
                     "name": "Płatki muszelki",
                     "amount": 2,
                     "checked": true
                 },
                 {
+                    "id": 5,
                     "name": "Lody",
                     "amount": 2,
                     "checked": false
                 },
                 {
+                    "id": 6,
                     "name": "Piersi z kurczaka",
                     "amount": 2,
                     "checked": false
@@ -43,101 +49,121 @@
             "name": "Lista zakupów 2",
             "items": [
                 {
+                    "id": 1,
                     "name": "Masło",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 2,
                     "name": "Jajka",
                     "amount": 12,
                     "checked": true
                 },
                 {
+                    "id": 3,
                     "name": "Ser",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 4,
                     "name": "Szynka",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 5,
                     "name": "Kawa",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 6,
                     "name": "Herbata",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 7,
                     "name": "Cukier",
                     "amount": 1,
                     "checked": true
                 },
                 {
+                    "id": 8,
                     "name": "Sól",
                     "amount": 1,
                     "checked": true
                 },
                 {
+                    "id": 9,
                     "name": "Pieprz",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 10,
                     "name": "Olej",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 11,
                     "name": "Ocet",
                     "amount": 1,
                     "checked": true
                 },
                 {
+                    "id": 12,
                     "name": "Makaron",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 13,
                     "name": "Ryż",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 14,
                     "name": "Ziemniaki",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 15,
                     "name": "Marchewka",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 16,
                     "name": "Cebula",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 17,
                     "name": "Czosnek",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 18,
                     "name": "Papryka",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 19,
                     "name": "Pomidor",
                     "amount": 1,
                     "checked": false
                 },
                 {
+                    "id": 20,
                     "name": "Ogórek",
                     "amount": 1,
                     "checked": false

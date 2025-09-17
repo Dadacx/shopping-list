@@ -4,6 +4,7 @@ import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as ImportIcon } from '../images/import.svg';
 import { useRef, useState } from 'react';
 import { showPopup } from './Popup/Popup';
+import packageJSON from '../../package.json';
 
 const HamburgerMenu = ({ isOpen, toggleMenu, theme, setTheme, changeTheme, data, saveData }) => {
     const [showImportTextarea, setShowImportTextarea] = useState(false);
@@ -51,6 +52,7 @@ const HamburgerMenu = ({ isOpen, toggleMenu, theme, setTheme, changeTheme, data,
                     <textarea ref={importTextareaRef} className='import-textarea' placeholder='Wklej tutaj dane listy zakupów' />
                     <button onClick={importLists}>Importuj</button>
                 </div>}
+                <div className="app-version">v{packageJSON.version}</div>
             </div>
         </div>
     );

@@ -83,8 +83,9 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
                     return <ListCard key={list.id} list={list} handleContextMenu={handleContextMenu} selectedLists={selectedLists} setSelectedLists={setSelectedLists} />;
                 })}
             </div>
+            {data.lists.length === 0 && (<div className='error empty-list-message'>Brak list do wyświetlenia</div>)}
             {selectedLists.length === 0 ? <Link onClick={() => {
-                const newList = { id: data.next_id, name: 'Lista bez tytułu', items: [{ name: '', amount: 0, checked: false }], timestamp: Date.now() };
+                const newList = { id: data.next_id, name: 'Lista bez tytułu', items: [{id: 1, name: '', amount: 0, checked: false }], timestamp: Date.now() };
                 const updatedData = { ...data, lists: [...data.lists, newList], next_id: data.next_id + 1 };
                 saveData(updatedData);
             }} to={`/edit/${data.next_id}`} className='add-list-button'>

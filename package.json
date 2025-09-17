@@ -1,6 +1,6 @@
 {
   "name": "shopping_list",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
