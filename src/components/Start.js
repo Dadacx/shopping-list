@@ -12,6 +12,8 @@ import { ReactComponent as DupliceIcon } from '../images/duplice.svg';
 // import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
 import { Link } from 'react-router-dom';
 
+import useAndroidBackButton from '../hooks/useAndroidBackButton';
+
 const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
     const [selectedLists, setSelectedLists] = useState([]);
     const [isHamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
@@ -70,6 +72,8 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
         showPopup({ message: "Zaznaczone listy zostały zduplikowane", type: "success", duration: 5000, border: true, icon: true });
         setSelectedLists([]);
     };
+
+    useAndroidBackButton({ doubleBackToExit: true, isHamburgerMenuOpen, setHamburgerMenuOpen });
 
     return (
         <>

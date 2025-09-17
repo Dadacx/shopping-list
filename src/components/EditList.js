@@ -7,6 +7,8 @@ import { showPopup } from './Popup/Popup';
 import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as SaveIcon } from '../images/save.svg';
 
+import { App } from '@capacitor/app';
+
 const EditList = ({ data, saveData }) => {
   const { id } = useParams();
   const [list, setList] = useState(JSON.parse(JSON.stringify(data.lists.find(l => l.id === parseInt(id)))));
@@ -37,6 +39,7 @@ const EditList = ({ data, saveData }) => {
     const updatedData = { ...data, lists: updatedLists };
     saveData(updatedData);
     showPopup({ message: "Lista została zapisana", type: "success", duration: 5000, border: true, icon: true });
+    navigate(-1)
   }
 
   const nextInput = (e) => {
@@ -125,11 +128,22 @@ const EditList = ({ data, saveData }) => {
 
   function close() {
     if (hasChanges(list, data.lists.find(list => list.id === parseInt(id)))) {
-      if (window.confirm("Masz niezapisane zmiany. Czy na pewno chcesz wyjść?")) navigate(`/${parseInt(id)}`)
+      if (window.confirm("Masz niezapisane zmiany. Czy na pewno chcesz wyjść?")) navigate(-1)
     } else {
-      navigate(`/${parseInt(id)}`)
+      navigate(-1)
     }
   }
+
+    useEffect(() => {
+    const handler = App.addListener('backButton', (event) => {
+      // zamiast cofania/wyjścia wołamy Twoją funkcję
+      close();
+    });
+
+    return () => {
+      handler.remove(); // sprzątamy gdy wychodzisz z tego komponentu
+    };
+  }, [list, data]); // dodajemy list i data do zależności, bo close ich używa
 
   return (
     <div className="edit-list">
@@ -142,9 +156,9 @@ const EditList = ({ data, saveData }) => {
           setList(updatedList);
         }} />
         <div className='list-buttons'>
-          <Link to={`/${id}`} className='save-button btn' onClick={saveList}>
+          <div className='save-button btn' onClick={saveList}>
             <SaveIcon style={{ color: 'var(--color)' }} />
-          </Link>
+          </div>
         </div>
       </div>
       <div className='line'></div>

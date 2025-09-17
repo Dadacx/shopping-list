@@ -6,6 +6,8 @@ import Start from './components/Start';
 import List from './components/List';
 import EditList from './components/EditList';
 
+import useAndroidBackButton from './hooks/useAndroidBackButton';
+
 function App() {
   const getData = () => {
     const data = localStorage.getItem('shoppingListData');
@@ -41,6 +43,8 @@ function App() {
   }
 
   console.log(data);
+
+
   return (
     <div className="container">
       <PopupManager />

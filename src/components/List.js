@@ -1,5 +1,5 @@
 import '../styles/List.css';
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import CopyToClipboard from './CopyToClipboard';
 import { showPopup } from './Popup/Popup';
@@ -15,6 +15,7 @@ const List = ({ data, saveData }) => {
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSortMenuOpen, setSortMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (!list) {
     return <Navigate to="/" replace />;
@@ -83,9 +84,9 @@ const List = ({ data, saveData }) => {
   return (
     <div className="list">
       <div className='list-header'>
-        <Link to="/" className='back'>
+        <div onClick={() => navigate(-1)} className='back'>
           <BackIcon style={{ color: 'var(--color)' }} className='back-icon' />
-        </Link>
+        </div>
         <input className='list-title' type="text" value={list.name} readOnly />
         <div className='list-buttons'>
           {/* <Link to={`/edit/${id}`} className='btn edit-button'>
