@@ -28,9 +28,11 @@ body {
     background-color: var(--background-color);
     color: var(--color);
 }
+
 body:has(.hamburger-menu-container.open) {
     overflow: hidden;
 }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -43,5 +45,15 @@ body:has(.hamburger-menu-container.open) {
     color: #cf0000;
     font-size: 25px;
     /* margin-top: 30px; */
+    text-align: center;
+}
+
+.update-info {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 15px;
+    color: cornflowerblue;
+    border: 1px solid cornflowerblue;
+    border-radius: 7px;
     text-align: center;
 }

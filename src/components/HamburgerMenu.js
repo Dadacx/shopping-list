@@ -1,5 +1,6 @@
 import '../styles/HamburgerMenu.css';
 import ThemeSwitch from './ThemeSwitch';
+import CheckForUpdates from './CheckForUpdates';
 import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as ImportIcon } from '../images/import.svg';
 import { useRef, useState } from 'react';
@@ -44,6 +45,7 @@ const HamburgerMenu = ({ isOpen, toggleMenu, theme, setTheme, changeTheme, data,
                 <BackIcon className="hamburger-menu-back-icon" onClick={toggleMenu} />
             </div>
             <div className="hamburger-menu-content">
+                <CheckForUpdates />
                 <div className='btn import-btn' onClick={() => { setShowImportTextarea(!showImportTextarea) }}>
                     <ImportIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
                     <div className='text'>Importuj listy zakupów</div>
