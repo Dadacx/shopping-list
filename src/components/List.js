@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CopyToClipboard from './CopyToClipboard';
 import { showPopup } from './Popup/Popup';
 import Checkbox from './Checkbox';
+import SortMenu from './SortMenu';
 import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as EditIcon } from '../images/edit.svg';
 import { ReactComponent as MoreIcon } from '../images/more.svg';
@@ -119,21 +120,13 @@ const List = ({ data, saveData }) => {
           </li>
         ))}
       </ul>
-      <div className={`sort-menu ${isSortMenuOpen ? 'open' : ''}`}>
-        <div className='sort-header'>
-          <h1>Sortuj</h1>
-          <CloseIcon style={{ color: 'var(--color)' }} className='close-sort-menu' onClick={() => setSortMenuOpen(false)} />
-        </div>
-        <div className='sort-option' onClick={() => sortList('a-z')}>Od A-Z</div>
-        <div className='sort-line'></div>
-        <div className='sort-option' onClick={() => sortList('z-a')}>Od Z-A</div>
-        <div className='sort-line'></div>
-        <div className='sort-option' onClick={() => sortList('a-z-checked')}>Od A-Z (Zaznaczone)</div>
-        <div className='sort-line'></div>
-        <div className='sort-option' onClick={() => sortList('z-a-checked')}>Od Z-A (Zaznaczone)</div>
-        <div className='sort-line'></div>
-        <div className='sort-option' onClick={() => sortList('oldest')}>Od najstarszych</div>
-      </div>
+      <SortMenu isSortMenuOpen={isSortMenuOpen} setSortMenuOpen={setSortMenuOpen}>
+        <SortMenu.Option onClick={() => sortList('a-z')}>Od A-Z</SortMenu.Option>
+        <SortMenu.Option onClick={() => sortList('z-a')}>Od Z-A</SortMenu.Option>
+        <SortMenu.Option onClick={() => sortList('a-z-checked')}>Od A-Z (Zaznaczone)</SortMenu.Option>
+        <SortMenu.Option onClick={() => sortList('z-a-checked')}>Od Z-A (Zaznaczone)</SortMenu.Option>
+        <SortMenu.Option onClick={() => sortList('oldest')}>Od najstarszych</SortMenu.Option>
+      </SortMenu>
     </div>
   );
 };

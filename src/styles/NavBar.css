@@ -4,6 +4,7 @@
     align-items: center;
     width: 100%;
     height: 40px;
+    justify-content: space-between;
     /* background-color: red; */
 }
 
@@ -19,4 +20,14 @@
 
 .navbar-title {
     margin: 0 10px;
+}
+
+.navbar-sort {
+    margin-right: 10px;
+    /* height: 75%; */
+}
+
+.navbar-sort-icon {
+    /* height: 100%; */
+    width: auto;
 }

@@ -1,0 +1,36 @@
+.sort-menu {
+    position: fixed;
+    bottom: var(--sort-menu-height);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--add-btn-color);
+    transition: 1s;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+.sort-menu.open {
+    bottom: 0;
+}
+
+.sort-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sort-option {
+    font-size: 1.1rem;
+    padding: 5px;
+}
+
+.sort-line {
+    width: 100%;
+    height: 1px;
+    background: black;
+}

@@ -8,6 +8,7 @@ import { ReactComponent as BackIcon } from '../images/back.svg';
 import { ReactComponent as SaveIcon } from '../images/save.svg';
 
 import { App } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 
 const EditList = ({ data, saveData }) => {
   const { id } = useParams();
@@ -35,7 +36,8 @@ const EditList = ({ data, saveData }) => {
 
     list.timestamp = Date.now();
     console.log('Saving list:', list);
-    const updatedLists = data.lists.map(l => l.id === list.id ? list : l);
+    const trimmedItems = list.items.map(item => ({ ...item, name: item.name.trim() })); // usuwanie spacji z nazw produktów
+    const updatedLists = data.lists.map(l => l.id === list.id ? { ...list, items: trimmedItems } : l);
     const updatedData = { ...data, lists: updatedLists };
     saveData(updatedData);
     showPopup({ message: "Lista została zapisana", type: "success", duration: 5000, border: true, icon: true });
@@ -91,6 +93,12 @@ const EditList = ({ data, saveData }) => {
         setTimeout(() => {
           setList(prev => ({ ...prev, items: updatedItems }));
 
+          // jeśli to pierwszy input, nie robimy nic więcej
+          if (currentIndex === 0) {
+            document.activeElement.blur();
+            return;
+          };
+
           const newInputs = listRef.current.querySelectorAll('input.edit-input-item');
           const newIndex = Math.min(currentIndex - 1, newInputs.length - 1);
           if (newIndex >= 0) {
@@ -134,9 +142,12 @@ const EditList = ({ data, saveData }) => {
     }
   }
 
-    useEffect(() => {
+  useEffect(() => {
+    if (Capacitor.getPlatform() === 'web') return;
+
     const handler = App.addListener('backButton', (event) => {
       // zamiast cofania/wyjścia wołamy Twoją funkcję
+      console.log(handler)
       close();
     });
 
