@@ -1,7 +1,7 @@
 import '../styles/Checkbox.css';
 import { useId } from 'react';
 
-const Checkbox = ({ checked, defaultChecked = false, onChange, className, size = "20px", disabled = false, readOnly = false }) => {
+const Checkbox = ({ checked, defaultChecked = false, onChange, className='', size = "20px", disabled = false, readOnly = false }) => {
     const id = useId();
 
     return (

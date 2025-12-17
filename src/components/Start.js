@@ -142,7 +142,7 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
                     <div className='text'>Dostosuj</div>
                 </div> */}
             </div>}
-            <SortMenu isSortMenuOpen={isSortMenuOpen} setSortMenuOpen={setSortMenuOpen}>
+            <SortMenu isSortMenuOpen={isSortMenuOpen} setSortMenuOpen={setSortMenuOpen} title='Sortuj listy zakupów'>
                 <SortMenu.Option onClick={() => sortLists('a-z')}>Od A-Z</SortMenu.Option>
                 <SortMenu.Option onClick={() => sortLists('z-a')}>Od Z-A</SortMenu.Option>
                 <SortMenu.Option onClick={() => sortLists('oldest')}>Od najstarszych</SortMenu.Option>

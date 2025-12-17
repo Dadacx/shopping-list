@@ -97,7 +97,7 @@ const List = ({ data, saveData }) => {
             <MoreIcon style={{ color: 'var(--color)' }} className='list-dropbtn' onClick={() => setDropdownOpen(!isDropdownOpen)} />
             <div className="list-dropdown-content">
               <Link to={`/edit/${id}`} className='dropdown-item'>Edytuj</Link>
-              <div className='dropdown-item' onClick={() => {setSortMenuOpen(true); setDropdownOpen(false);}}>Sortuj</div>
+              <div className='dropdown-item' onClick={() => { setSortMenuOpen(true); setDropdownOpen(false); }}>Sortuj</div>
               <div className='dropdown-item' onClick={exportList}>Eksportuj</div>
               <div className='dropdown-item' onClick={deleteList}>Usuń</div>
               {/* <div className='dropdown-item'>Dostosuj</div> */}
@@ -108,15 +108,17 @@ const List = ({ data, saveData }) => {
       <div className='line'></div>
       <ul className='list-items'>
         {list.items.map((item, index) => (item.name !== '' || item.amount > 0) && (
-          <li key={index} className={`list-item ${item.checked ? 'checked' : ''}`}>
-            <Checkbox checked={item.checked} onChange={() => {
-              const updatedItems = [...list.items];
-              updatedItems[index].checked = !updatedItems[index].checked;
-              const updatedList = { ...list, items: updatedItems };
-              saveData({ ...data, lists: data.lists.map(l => l.id === list.id ? updatedList : l) });
-            }} />
-            {item.name !== '' && <span className='item-name'>{item.name}</span>}
-            {item.amount > 0 && <span className='item-amount'>x{item.amount}</span>}
+          <li key={index}>
+            <label className={`list-item ${item.checked ? 'checked' : ''}`}>
+              <Checkbox checked={item.checked} onChange={() => {
+                const updatedItems = [...list.items];
+                updatedItems[index].checked = !updatedItems[index].checked;
+                const updatedList = { ...list, items: updatedItems };
+                saveData({ ...data, lists: data.lists.map(l => l.id === list.id ? updatedList : l) });
+              }} />
+              {item.name !== '' && <span className='item-name'>{item.name}</span>}
+              {item.amount > 0 && <span className='item-amount'>x{item.amount}</span>}
+            </label>
           </li>
         ))}
       </ul>

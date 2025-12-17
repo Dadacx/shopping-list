@@ -74,7 +74,7 @@ const EditList = ({ data, saveData }) => {
 
     // Sprawdzamy czy aktualny input jest pusty
     const currentInputEmpty = document.activeElement.value === '';
-
+    
     // Jeśli backspace na pierwszym inpucie i oba inputy są puste
     if (currentInputEmpty && currentIndex % 2 === 0) {
       const itemIndex = Math.floor(currentIndex / 2);
@@ -176,13 +176,14 @@ const EditList = ({ data, saveData }) => {
       <ul className='list-items' ref={listRef}>
         {list.items.map((item, index) => (
           <li key={index} className='list-item'>
-            <Checkbox defaultChecked={true} disabled={true} />
+            <Checkbox defaultChecked={item.checked} disabled={true} />
             <AutoWidthInput
               className='item-name edit-input-item'
               placeholder='Podaj nazwę'
               value={item.name}
               onChange={(e) => {
                 const updatedItems = [...list.items];
+                updatedItems[index].checked = false
                 updatedItems[index].name = e.target.value;
                 setList(prev => ({ ...prev, items: updatedItems }));
               }} />
@@ -193,6 +194,7 @@ const EditList = ({ data, saveData }) => {
               value={item.amount !== 0 ? `x${item.amount}` : ''}
               onChange={(e) => {
                 const updatedItems = [...list.items];
+                updatedItems[index].checked = false
                 updatedItems[index].amount = parseInt(e.target.value.replace('x', '')) || 0;
                 setList(prev => ({ ...prev, items: updatedItems }));
               }} />
