@@ -1,5 +1,5 @@
 import '../styles/Start.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import ListCard from './ListCard';
@@ -11,6 +11,7 @@ import { ReactComponent as AddListIcon } from '../images/add_list.svg';
 import { ReactComponent as ExportIcon } from '../images/export.svg';
 import { ReactComponent as DeleteIcon } from '../images/delete.svg';
 import { ReactComponent as DupliceIcon } from '../images/duplice.svg';
+import { ReactComponent as MergeIcon } from '../images/merge.svg';
 // import { ReactComponent as PalleteIcon } from '../images/pallete.svg';
 
 import useAndroidBackButton from '../hooks/useAndroidBackButton';
@@ -36,25 +37,25 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
         });
     };
 
-    const sortLists = (type) => {
-        var updatedList;
-        if (type === 'a-z') {
-            const sortedLists = [...data.lists].sort((a, b) => a.name.localeCompare(b.name));
-            updatedList = { ...data, lists: sortedLists };
-        } else if (type === 'z-a') {
-            const sortedLists = [...data.lists].sort((a, b) => b.name.localeCompare(a.name));
-            updatedList = { ...data, lists: sortedLists };
-        } else if (type === 'oldest') {
-            const sortedLists = [...data.lists].sort((a, b) => a.id - b.id);
-            updatedList = { ...data, lists: sortedLists };
-        } else if (type === 'newest') {
-            const sortedLists = [...data.lists].sort((a, b) => b.id - a.id);
-            updatedList = { ...data, lists: sortedLists };
-        } else if (type === 'last-modified') {
-            const sortedLists = [...data.lists].sort((a, b) => b.timestamp - a.timestamp);
-            updatedList = { ...data, lists: sortedLists };
+    const sortList = (type) => {
+        const updatedData = { ...data, sort_type: type };
+        applySort(updatedData);
+    }
+
+    const applySort = (updatedData = data) => {
+        var sortedLists = updatedData.lists;
+        if (updatedData.sort_type === 'a-z') {
+            sortedLists = [...sortedLists].sort((a, b) => a.name.localeCompare(b.name));
+        } else if (updatedData.sort_type === 'z-a') {
+            sortedLists = [...sortedLists].sort((a, b) => b.name.localeCompare(a.name));
+        } else if (updatedData.sort_type === 'oldest') {
+            sortedLists = [...sortedLists].sort((a, b) => a.id - b.id);
+        } else if (updatedData.sort_type === 'newest') {
+            sortedLists = [...sortedLists].sort((a, b) => b.id - a.id);
+        } else if (updatedData.sort_type === 'last-modified') {
+            sortedLists = [...sortedLists].sort((a, b) => b.timestamp - a.timestamp);
         }
-        saveData(updatedList);
+        saveData({ ...updatedData, lists: sortedLists });
     }
 
     const addNewList = () => {
@@ -62,7 +63,7 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
         if (listName !== null) {
             const newList = { id: data.next_id, name: listName || "Lista bez tytułu", items: [{ id: 1, name: '', amount: 0, checked: false }], timestamp: Date.now() };
             const updatedData = { ...data, lists: [...data.lists, newList], next_id: data.next_id + 1 };
-            saveData(updatedData);
+            applySort(updatedData);
             navigate(`/edit/${newList.id}`);
         }
     }
@@ -107,6 +108,26 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
         setSelectedLists([]);
     };
 
+    const mergeSelectedLists = () => {
+        console.log(selectedLists)
+        const listsToMerge = selectedLists.map(id => data.lists.find(list => list.id === id));
+        if (listsToMerge.length < 2) return;
+
+        for (let i = 1; i < listsToMerge.length; i++) {
+            listsToMerge[0].items = [...listsToMerge[0].items, ...listsToMerge[i].items.map(item => ({ ...item, id: listsToMerge[0].items.length + 1 }))];
+        }
+
+        listsToMerge[0].timestamp = Date.now();
+        
+        const updatedLists = data.lists.filter(list => !selectedLists.includes(list.id));
+        updatedLists.push(listsToMerge[0]);
+        const updatedData = { ...data, lists: updatedLists };
+        applySort(updatedData);
+        showPopup({ message: "Zaznaczone listy zostały scalone", type: "success", duration: 5000, border: true, icon: true });
+        setSelectedLists([]);
+
+    }
+
     useAndroidBackButton({ doubleBackToExit: true, isHamburgerMenuOpen, setHamburgerMenuOpen });
 
     return (
@@ -126,16 +147,20 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
                 <AddListIcon style={{ color: 'var(--color)' }} />
             </div> : <div className='selected-lists-menu'>
                 <div className='btn export-btn' onClick={exportSelectedLists}>
-                    <ExportIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
-                    <div className='text'>Eksportuj</div>
+                    <ExportIcon className='icon' />
+                    <div className='text'>Udostępnij</div>
                 </div>
                 <div className='btn delete-btn' onClick={deleteSelectedLists}>
-                    <DeleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <DeleteIcon className='icon' />
                     <div className='text'>Usuń</div>
                 </div>
                 <div className='btn duplice-btn' onClick={dupliceSelectedLists}>
-                    <DupliceIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
+                    <DupliceIcon className='icon' />
                     <div className='text'>Duplikuj</div>
+                </div>
+                <div className={`btn merge-btn ${selectedLists.length < 2 ? 'disabled' : ''}`} onClick={mergeSelectedLists}>
+                    <MergeIcon className='icon' />
+                    <div className='text'>Scal listy</div>
                 </div>
                 {/* <div className='btn adjust-btn'>
                     <PalleteIcon style={{ color: 'var(--color)', width: '30px', height: '30px' }} />
@@ -143,11 +168,11 @@ const Start = ({ data, saveData, theme, setTheme, changeTheme }) => {
                 </div> */}
             </div>}
             <SortMenu isSortMenuOpen={isSortMenuOpen} setSortMenuOpen={setSortMenuOpen} title='Sortuj listy zakupów'>
-                <SortMenu.Option onClick={() => sortLists('a-z')}>Od A-Z</SortMenu.Option>
-                <SortMenu.Option onClick={() => sortLists('z-a')}>Od Z-A</SortMenu.Option>
-                <SortMenu.Option onClick={() => sortLists('oldest')}>Od najstarszych</SortMenu.Option>
-                <SortMenu.Option onClick={() => sortLists('newest')}>Od najnowszych</SortMenu.Option>
-                <SortMenu.Option onClick={() => sortLists('last-modified')}>Od ostatnio modyfikowanych</SortMenu.Option>
+                <SortMenu.Option onClick={() => sortList('a-z')}>Od A-Z</SortMenu.Option>
+                <SortMenu.Option onClick={() => sortList('z-a')}>Od Z-A</SortMenu.Option>
+                <SortMenu.Option onClick={() => sortList('oldest')}>Od najstarszych</SortMenu.Option>
+                <SortMenu.Option onClick={() => sortList('newest')}>Od najnowszych</SortMenu.Option>
+                <SortMenu.Option onClick={() => sortList('last-modified')}>Od ostatnio modyfikowanych</SortMenu.Option>
             </SortMenu>
         </>
     );

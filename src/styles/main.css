@@ -8,6 +8,7 @@ colors {
 
 :root {
     --color: #000;
+    --disabled-color: #9c9c9c;
     --background-color: #ebebeb;
     --background-list-color: #d8d8d8;
     --add-btn-color: #c5c5c5;
@@ -15,9 +16,12 @@ colors {
 
 [data-theme="dark"] {
     --color: #fff;
+    --disabled-color: gray;
     --background-color: #141414;
     --background-list-color: #272727;
     --add-btn-color: #3a3a3a;
+    --transfer-select-background: #2c2c2c;
+    --transfer-select-border: #444444;
 }
 
 body {

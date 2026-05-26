@@ -20,7 +20,7 @@ const ListCard = ({ list, handleContextMenu, selectedLists, setSelectedLists }) 
 
   return (
     <div className='list-card' onClick={handleClick} onContextMenu={(e) => handleContextMenu(e, list.id)}>
-      {/* <div style={{ position: 'absolute', top: 0, left: 0 }}>{list.id}</div> */}
+      <div style={{ position: 'absolute', top: 0, left: 0 }}>{list.id}</div>
       {selectedLists.length > 0 && (<Checkbox checked={selectedLists.includes(list.id)} readOnly={true} className='list-checkbox' />)}
       <h3 className='card-title'>{list.name}</h3>
       <ul className='card-items-list'>

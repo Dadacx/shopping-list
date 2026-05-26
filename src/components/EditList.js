@@ -13,7 +13,10 @@ import { Capacitor } from '@capacitor/core';
 const EditList = ({ data, saveData }) => {
   const { id } = useParams();
   const [list, setList] = useState(JSON.parse(JSON.stringify(data.lists.find(l => l.id === parseInt(id)))));
+  const [transfrList, setTransfrList] = useState([]);
   const listRef = useRef(null);
+  const transferSelectRef = useRef(null);
+  const transferMenuRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,13 +71,23 @@ const EditList = ({ data, saveData }) => {
     }
   };
 
+  const test = (inputElement) => {
+    inputElement.focus();
+
+    // Wrzucamy zmianę kursora na koniec kolejki zdarzeń przeglądarki
+    setTimeout(() => {
+      const dlugoscTekstu = inputElement.value.length;
+      inputElement.setSelectionRange(dlugoscTekstu, dlugoscTekstu);
+    }, 0);
+  }
+
   const handleBackspace = (e) => {
     const inputs = listRef.current.querySelectorAll('input.edit-input-item');
     const currentIndex = Array.from(inputs).indexOf(document.activeElement);
 
     // Sprawdzamy czy aktualny input jest pusty
     const currentInputEmpty = document.activeElement.value === '';
-    
+
     // Jeśli backspace na pierwszym inpucie i oba inputy są puste
     if (currentInputEmpty && currentIndex % 2 === 0) {
       const itemIndex = Math.floor(currentIndex / 2);
@@ -102,16 +115,22 @@ const EditList = ({ data, saveData }) => {
           const newInputs = listRef.current.querySelectorAll('input.edit-input-item');
           const newIndex = Math.min(currentIndex - 1, newInputs.length - 1);
           if (newIndex >= 0) {
-            newInputs[newIndex].focus();
+            e.preventDefault();
+            // newInputs[newIndex].focus();
+            test(newInputs[newIndex]);
           }
         }, 0);
       } else if (currentIndex > 0) {
+        e.preventDefault();
         // Standardowe zachowanie - przejście do poprzedniego inputa
-        inputs[currentIndex - 1].focus();
+        // inputs[currentIndex - 1].focus();
+        test(inputs[currentIndex - 1]);
       }
     } else if (currentIndex > 0 && currentInputEmpty) {
+      e.preventDefault();
       // Standardowe zachowanie - przejście do poprzedniego inputa
-      inputs[currentIndex - 1].focus();
+      // inputs[currentIndex - 1].focus();
+      test(inputs[currentIndex - 1]);
     }
   };
 
@@ -140,6 +159,35 @@ const EditList = ({ data, saveData }) => {
     } else {
       navigate(-1)
     }
+  }
+
+  function transferItems() {
+    const date = Date.now();
+    const targetListId = parseInt(transferSelectRef.current.value);
+    const targetList = data.lists.find(l => l.id === targetListId);
+    const updatedTargetList = {
+      ...targetList,
+      items: [...targetList.items, ...transfrList.map(item => ({ ...item, checked: false }))],
+      timestamp: date
+    };
+    const updatedList = {
+      ...list,
+      items: list.items.filter(item => !transfrList.includes(item)),
+      timestamp: date
+    }
+    const updatedLists = data.lists.map(l => {
+      if (l.id === list.id) {
+        return updatedList;
+      } else if (l.id === targetListId) {
+        return updatedTargetList;
+      }
+      return l;
+    });
+    setList(updatedList);
+    const updatedData = { ...data, lists: updatedLists };
+    saveData(updatedData);
+    setTransfrList([]);
+    showPopup({ message: "Produkty zostały przeniesione", type: "success", duration: 5000, border: true, icon: true });
   }
 
   useEffect(() => {
@@ -176,9 +224,9 @@ const EditList = ({ data, saveData }) => {
       <ul className='list-items' ref={listRef}>
         {list.items.map((item, index) => (
           <li key={index} className='list-item'>
-            <Checkbox defaultChecked={item.checked} disabled={true} />
+            <Checkbox onChange={(e) => { e.target.checked ? setTransfrList([...transfrList, item]) : setTransfrList(transfrList.filter(i => i !== item)) }} />
             <AutoWidthInput
-              className='item-name edit-input-item'
+              className={`item-name edit-input-item ${item.checked ? 'checked' : ''}`}
               placeholder='Podaj nazwę'
               value={item.name}
               onChange={(e) => {
@@ -188,7 +236,7 @@ const EditList = ({ data, saveData }) => {
                 setList(prev => ({ ...prev, items: updatedItems }));
               }} />
             <input
-              className='item-amount edit-input-item'
+              className={`item-amount edit-input-item ${item.checked ? 'checked' : ''}`}
               placeholder='Podaj ilość'
               enterKeyHint="done"
               value={item.amount !== 0 ? `x${item.amount}` : ''}
@@ -201,6 +249,18 @@ const EditList = ({ data, saveData }) => {
           </li>
         ))}
       </ul>
+
+        <div className={`transfer-menu`} style={{ bottom: transfrList.length > 0 ? '0px' : undefined }} ref={transferMenuRef}>
+          <div className='transfer-header'>
+            <h1 style={{margin: '0'}}>Przenieś zaznaczone do:</h1>
+          </div>
+          <select className='transfer-select' ref={transferSelectRef}>
+            {data.lists.filter(l => l.id !== list.id).map(l => (
+              <option key={l.id} value={l.id}>{l.name}</option>
+            ))}
+          </select>
+          <button className='confirm-transfer-btn' onClick={transferItems}>Przenieś</button>
+        </div>
     </div>
   );
 };

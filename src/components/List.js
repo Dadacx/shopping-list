@@ -98,7 +98,7 @@ const List = ({ data, saveData }) => {
             <div className="list-dropdown-content">
               <Link to={`/edit/${id}`} className='dropdown-item'>Edytuj</Link>
               <div className='dropdown-item' onClick={() => { setSortMenuOpen(true); setDropdownOpen(false); }}>Sortuj</div>
-              <div className='dropdown-item' onClick={exportList}>Eksportuj</div>
+              <div className='dropdown-item' onClick={exportList}>Udostępnij</div>
               <div className='dropdown-item' onClick={deleteList}>Usuń</div>
               {/* <div className='dropdown-item'>Dostosuj</div> */}
             </div>

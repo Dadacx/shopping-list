@@ -52,6 +52,20 @@
     padding: 5px;
     width: 55px;
     box-sizing: border-box;
+    color: var(--colo);
+}
+.selected-lists-menu .btn .icon {
+    width: 30px;
+    height: 30px;
+    color: var(--color);
+}
+
+.selected-lists-menu .btn.disabled, .selected-lists-menu .btn.disabled .icon {
+    color: var(--disabled-color);
+}
+
+.selected-lists-menu .btn, .selected-lists-menu .btn .icon {
+    transition: 0.3s;
 }
 
 .selected-lists-menu .btn .text {

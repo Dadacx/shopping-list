@@ -5,6 +5,7 @@ import { PopupManager } from './components/Popup/Popup';
 import Start from './components/Start';
 import List from './components/List';
 import EditList from './components/EditList';
+import CheckForChangesInStructure from './components/CheckForChangesInStructure';
 
 import useAndroidBackButton from './hooks/useAndroidBackButton';
 
@@ -32,16 +33,7 @@ function App() {
 
   document.querySelector("body").setAttribute("data-theme", theme)
 
-  if (!data) {
-    const defaultData = {
-      "theme": "light",
-      "next_id": 1,
-      "lists": []
-    }
-    setData(defaultData);
-    saveData(defaultData);
-  }
-
+  CheckForChangesInStructure(data,saveData);
   console.log(data);
 
 
