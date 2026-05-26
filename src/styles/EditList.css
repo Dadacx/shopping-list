@@ -86,6 +86,7 @@
 }
 
 .transfer-menu {
+    color: var(--color);
     position: fixed;
     bottom: -192px;
     width: 100%;
@@ -107,8 +108,8 @@
 }
 
 .transfer-select {
+    color: var(--color);
     background-color: var(--transfer-select-background);
-    color: #e0e0e0;
     border: 1px solid var(--transfer-select-border);
     border-radius: 8px;
     padding: 10px 14px;
@@ -121,15 +122,9 @@
     text-align: center;
 }
 
-.transfer-select:hover, 
-.transfer-select:focus {
-    border-color: #777777;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
-}
-
 .confirm-transfer-btn {
+    color: var(--color);
     background-color: var(--transfer-select-background);
-    color: #ffffff;
     border: 1px solid #4a4a4a;
     border-radius: 8px;
     padding: 10px 24px;
@@ -141,12 +136,6 @@
     max-width: 220px;
 }
 
-.confirm-transfer-btn:hover {
-    background-color: #4f4f4f; /* Rozjaśnienie przy najechaniu */
-    border-color: #666666;
-}
-
 .confirm-transfer-btn:active {
-    background-color: #2c2c2c; /* Efekt "wciśnięcia" */
     transform: scale(0.97);
 }

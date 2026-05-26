@@ -12,6 +12,8 @@ colors {
     --background-color: #ebebeb;
     --background-list-color: #d8d8d8;
     --add-btn-color: #c5c5c5;
+    --transfer-select-background: #ffffff;
+    --transfer-select-border: #cccccc;
 }
 
 [data-theme="dark"] {
