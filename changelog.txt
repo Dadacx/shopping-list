@@ -1,4 +1,0 @@
-- zmiana nazwy z 'Eksportuj' na 'Udostępnij'
-- możliwość scalania kilku list, scalić można przynajmniej 2 listy, listy zostaną scalone do pierwszej zaznaczonej listy
-- w trybie edycji zaznaczone pozycje są teraz wyszarzone i przekreślone
-- możliwość przenoszenia pojedynczych pozycji z listy (zaznaczenie w trybie edycji checkboxa i wybranie listy docelowej z listy)

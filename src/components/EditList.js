@@ -71,13 +71,20 @@ const EditList = ({ data, saveData }) => {
     }
   };
 
-  const test = (inputElement) => {
+  const test = (inputElement, position = 'end') => {
+    if (!inputElement) return;
     inputElement.focus();
 
-    // Wrzucamy zmianę kursora na koniec kolejki zdarzeń przeglądarki
+    // Ustawiamy kursor w następnym ticku event loop, żeby focus zdążył się ustawić
     setTimeout(() => {
-      const dlugoscTekstu = inputElement.value.length;
-      inputElement.setSelectionRange(dlugoscTekstu, dlugoscTekstu);
+      const dlugoscTekstu = inputElement.value ? inputElement.value.length : 0;
+      if (position === 'start') {
+        inputElement.setSelectionRange(0, 0);
+      } else if (position === 'end') {
+        inputElement.setSelectionRange(dlugoscTekstu, dlugoscTekstu);
+      } else if (position === 'selectAll') {
+        inputElement.setSelectionRange(0, dlugoscTekstu);
+      }
     }, 0);
   }
 
@@ -137,11 +144,66 @@ const EditList = ({ data, saveData }) => {
   useEffect(() => {
     const enter = (e) => e.key === "Enter" && nextInput(e);
     const backspace = (e) => e.key === "Backspace" && handleBackspace(e);
+    const arrowNav = (e) => {
+      if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+      const inputs = listRef.current.querySelectorAll('input.edit-input-item');
+      const currentIndex = Array.from(inputs).indexOf(document.activeElement);
+      const active = document.activeElement;
+      if (!active || active.tagName !== 'INPUT') return;
+
+      const start = active.selectionStart;
+      const end = active.selectionEnd;
+      const valueLen = (active.value || '').length;
+
+      // Left / Right: przechodzimy tylko gdy caret jest na krawędzi
+      if (e.key === 'ArrowRight' && start === end && start === valueLen) {
+        if (currentIndex < inputs.length - 1) {
+          e.preventDefault();
+          const next = inputs[currentIndex + 1];
+          test(next, 'start');
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowLeft' && start === end && start === 0) {
+        if (currentIndex > 0) {
+          e.preventDefault();
+          const prev = inputs[currentIndex - 1];
+          test(prev, 'end');
+        }
+        return;
+      }
+
+      // Up / Down: poruszamy się wierszami; fokusujemy pole z ilością i ustawiamy caret na końcu
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        const cols = 2; // name, amount
+        const row = Math.floor(currentIndex / cols);
+        const totalRows = Math.ceil(inputs.length / cols);
+
+        let targetRow = row;
+        if (e.key === 'ArrowUp') {
+          if (row === 0) return;
+          targetRow = row - 1;
+        } else if (e.key === 'ArrowDown') {
+          if (row >= totalRows - 1) return;
+          targetRow = row + 1;
+        }
+
+        const targetIndex = targetRow * cols + 1; // zawsze fokusuj pole z ilością
+        const target = inputs[targetIndex];
+        if (target) {
+          e.preventDefault();
+          test(target, 'end');
+        }
+      }
+    };
     document.addEventListener("keydown", enter);
     document.addEventListener("keydown", backspace);
+    document.addEventListener("keydown", arrowNav);
     return () => {
       document.removeEventListener("keydown", enter);
       document.removeEventListener("keydown", backspace);
+      document.removeEventListener("keydown", arrowNav);
     };
   }, [list.items]);
 

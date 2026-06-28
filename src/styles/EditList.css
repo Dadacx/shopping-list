@@ -59,6 +59,7 @@
 }
 
 .edit-input-item {
+    caret-color: white;
     font-size: 0.9rem;
     background: unset;
     outline: none;
